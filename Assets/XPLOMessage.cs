@@ -1,29 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public class XPLOMessage : MonoBehaviour {
+public class XPLOMessage : MonoBehaviour
+{
 	public string message;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 
-	public void showMessage(string message) {
+	public void showMessage (string message)
+	{
 		this.message = message;
 
-		TextMesh textM = gameObject.GetComponent<TextMesh> ();
-		textM.text = message;
+		GameObject textObject = gameObject.transform.FindChild ("Text").gameObject;
 
-		gameObject.SetActive(true);
+		Text t = textObject.GetComponent<Text> ();
+		t.text = message;
+
+
+		gameObject.SetActive (true);
 	}
 
-	public void hideMessage() {
-		gameObject.SetActive(false);
+	public void hideMessage ()
+	{
+		gameObject.SetActive (false);
 	}
 }
