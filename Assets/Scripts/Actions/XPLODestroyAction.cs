@@ -17,8 +17,8 @@ public class XPLODestroyAction : XPLOAction
 								GameObject tile = (GameObject)Instantiate (part, spawnPos, Quaternion.identity);
 								tile.layer = LayerMask.NameToLayer ("EffectLayer");
 								tile.SetActive (true);
-								tile.rigidbody2D.AddForce (this.impactDir * 500);
-								tile.rigidbody2D.AddTorque (Random.value * 600 - 300);
+								tile.GetComponent<Rigidbody2D>().AddForce (this.impactDir * 500);
+								tile.GetComponent<Rigidbody2D>().AddTorque (Random.value * 600 - 300);
 						}
 
 						XPLOPlayer player = gameObject.GetComponent<XPLOPlayer> ();
@@ -31,7 +31,7 @@ public class XPLODestroyAction : XPLOAction
 						this.setWhenFromNow (600);
 						GameObject.Find ("ExplosionWorld").GetComponent<ExplosionWorld> ().enqAction (this);
 						
-						this.gameObject.renderer.enabled = false;
+						this.gameObject.GetComponent<Renderer>().enabled = false;
 						foreach (SpriteRenderer r in gameObject.transform.GetComponentsInChildren<SpriteRenderer>()) {
 								r.enabled = false;
 						}

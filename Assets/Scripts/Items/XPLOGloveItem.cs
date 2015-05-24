@@ -36,7 +36,7 @@ public class XPLOGloveItem : XPLOActionItem
 						renderer.sortingOrder = 1000;
 					}
 					explodeAction.gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-					explodeAction.gameObject.rigidbody2D.AddForce(Vector2.right * 300);
+					explodeAction.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 300);
 				}
 			}
 		}

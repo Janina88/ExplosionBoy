@@ -53,7 +53,7 @@ public class XPLOController : MonoBehaviour
 						anim.SetFloat ("SpeedY", dir.y);
 				}
 
-				gameObject.rigidbody2D.AddForce (dir);
+				gameObject.GetComponent<Rigidbody2D>().AddForce (dir);
 
 				bool dropBomb = Input.GetButtonDown ("Fire1_" + inputSuffix);
 
@@ -75,7 +75,7 @@ public class XPLOController : MonoBehaviour
 						GameObject.Find ("ExplosionWorld").GetComponent<ExplosionWorld> ().enqAction (action);
 				}
 
-				if (lastDroppedBomb != null && lastDroppedBomb.collider2D && !lastDroppedBomb.collider2D.bounds.Intersects (gameObject.collider2D.bounds)) {
+				if (lastDroppedBomb != null && lastDroppedBomb.GetComponent<Collider2D>() && !lastDroppedBomb.GetComponent<Collider2D>().bounds.Intersects (gameObject.GetComponent<Collider2D>().bounds)) {
 						lastDroppedBomb.layer = LayerMask.NameToLayer ("Default");
 						lastDroppedBomb = null;
 				}

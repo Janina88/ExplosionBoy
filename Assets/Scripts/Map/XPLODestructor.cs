@@ -25,8 +25,8 @@ public class XPLODestructor : MonoBehaviour
 						GameObject tile = (GameObject)Instantiate (part, spawnPos, Quaternion.identity);
 						tile.layer = LayerMask.NameToLayer ("EffectLayer");
 						tile.SetActive (true);
-						tile.rigidbody2D.AddForce (impactDir * 500);
-						tile.rigidbody2D.AddTorque (Random.value * 600 - 300);
+						tile.GetComponent<Rigidbody2D>().AddForce (impactDir * 500);
+						tile.GetComponent<Rigidbody2D>().AddTorque (Random.value * 600 - 300);
 				}
 
 				gameObject.SetActive (false);
