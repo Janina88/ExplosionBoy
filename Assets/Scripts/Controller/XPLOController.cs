@@ -12,15 +12,26 @@ public class XPLOController : MonoBehaviour
 	private Animator[] anims;
 	private XPLOActionItem itemToControl;
 
+	private XPLOPlayer player;
+
+	private IList consumedEvents;
+
+
 	void Start ()
 	{
 		this.gameObject.GetComponentsInChildren<Animator> ();
 		anims = this.gameObject.GetComponentsInChildren<Animator> ();
+
+		player = this.gameObject.GetComponent<XPLOPlayer> ();
+
+		consumedEvents = new ArrayList ();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		consumedEvents.Clear ();
+
 		float threshold = 0.3f;
 		Vector2 dir = new Vector2 ();
 		Vector2 dirAnalog = new Vector2 ();
@@ -34,14 +45,22 @@ public class XPLOController : MonoBehaviour
 			dirAnalog.y = Input.GetAxisRaw ("Vertical_" + inputSuffix);
 		}
 		
-		if (dirAnalog.x > threshold)
+		if (dirAnalog.x > threshold) {
 			dir.x = 1;
-		if (dirAnalog.x < -threshold)
+			this.player.setFaceDir(XPLOPlayer.right);
+		}
+		if (dirAnalog.x < -threshold) {
 			dir.x = -1;
-		if (dirAnalog.y > threshold)
+			this.player.setFaceDir(XPLOPlayer.left);
+		}
+		if (dirAnalog.y > threshold) {
 			dir.y = 1;
-		if (dirAnalog.y < -threshold)
+			this.player.setFaceDir(XPLOPlayer.up);
+		}
+		if (dirAnalog.y < -threshold) {
 			dir.y = -1;
+			this.player.setFaceDir(XPLOPlayer.down);
+		}
 
 		this.handleItemEvents ();
 
@@ -55,7 +74,7 @@ public class XPLOController : MonoBehaviour
 
 		gameObject.GetComponent<Rigidbody2D> ().AddForce (dir);
 
-		bool dropBomb = Input.GetButtonDown ("Fire1_" + inputSuffix);
+		bool dropBomb = this.getButtonDown ("Fire1", inputSuffix);
 
 		GameObject bomb = gameObject.GetComponent<XPLOPlayer> ().bomb;
 		XPLOPlayer player = gameObject.GetComponent<XPLOPlayer> ();
@@ -84,9 +103,10 @@ public class XPLOController : MonoBehaviour
 	public void handleItemEvents ()
 	{
 		foreach (string eventKey in this.eventKeys) {
-			bool keyDown = Input.GetButtonDown (eventKey + "_" + inputSuffix);
+			string keyName = eventKey + "_" + inputSuffix;
+			bool keyDown = Input.GetButtonDown (keyName);
 			if (keyDown && this.itemToControl != null) {
-				this.itemToControl.performAction (this.gameObject.GetComponent<XPLOPlayer> (), eventKey);
+				this.itemToControl.performAction (this.gameObject.GetComponent<XPLOPlayer> (), eventKey, this.consumedEvents);
 			}
 		}
 	}
@@ -259,5 +279,12 @@ public class XPLOController : MonoBehaviour
 		
 		return false;
 	}
-	
+
+	public bool getButtonDown(string key, string suffix) {
+		Debug.Log (this.consumedEvents.Contains ("Fire1_1"));
+		if (this.consumedEvents.Contains (key)) {
+			return false;
+		}
+		return Input.GetButtonDown (key + "_" + suffix);
+	}
 }

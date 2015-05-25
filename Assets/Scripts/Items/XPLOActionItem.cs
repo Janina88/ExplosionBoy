@@ -3,5 +3,5 @@ using System.Collections;
 
 public abstract class XPLOActionItem : XPLOItem {
 
-	public abstract void performAction (XPLOPlayer player, string inputKey);
+	public abstract void performAction (XPLOPlayer player, string inputKey, IList consumedEvents);
 }
